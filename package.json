@@ -1,0 +1,19 @@
+{
+  "name": "swa-trello-analysis",
+  "version": "1.0.0",
+  "description": "Analysis dashboard for Trello boards",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.corp.globant.com/leonardo-putz/swa-trello-analysis.git"
+  },
+  "author": "Leonardo Putz",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "materialize-css": "^0.100.2"
+  }
+}

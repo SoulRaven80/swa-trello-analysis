@@ -1,0 +1,106 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.icon-block {
+	padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+/* sticky footer */
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 0 auto;
+}
+/* end of sticky footer */
+
+.globant-green {
+  background-color: #CCD324 !important;	
+}
+
+.globant-gray {
+  background-color: #888A8C !important;	
+}
+
+.globant-red {
+  background-color: #ED1C24 !important;	
+}
+
+.globant-orange {
+  background-color: #F68B1F !important;	
+}
+
+.globant-yellow {
+  background-color: #FEBE10 !important;	
+}
+
+.globant-cyan {
+  background-color: #00AEEF !important;	
+}
+
+.globant-blue {
+  background-color: #0069B5 !important;	
+}
+
+.globant-purple {
+  background-color: #A154A1 !important;	
+}
+
+.globant-light-violet {
+  background-color: #9A9CCD !important;	
+}
+
+.globant-magenta {
+  background-color: #EC008C !important;	
+}
+
+.globant-green-text {
+  color: #CCD324 !important;	
+}
+
+.globant-gray-text {
+  color: #888A8C !important;	
+}
+
+.globant-red-text {
+  color: #ED1C24 !important;	
+}
+
+.globant-orange-text {
+  color: #F68B1F !important;	
+}
+
+.globant-yellow-text {
+  color: #FEBE10 !important;	
+}
+
+.globant-cyan-text {
+  color: #00AEEF !important;	
+}
+
+.globant-blue-text {
+  color: #0069B5 !important;	
+}
+
+.globant-purple-text {
+  color: #A154A1 !important;	
+}
+
+.globant-light-violet-text {
+  color: #9A9CCD !important;	
+}
+
+.globant-magenta-text {
+  color: #EC008C !important;	
+}
