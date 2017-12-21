@@ -1,7 +1,8 @@
 function authorizeUser() {
 	window.Trello.authorize({
 	  type: 'popup',
-	  name: 'Getting Started Application',
+	  name: 'Trello analysis dashboard',
+		persist: 'true',
 	  scope: {
 		read: 'true',
 		write: 'true' },
@@ -11,10 +12,12 @@ function authorizeUser() {
 	});
 }
 
-var authenticationSuccess = function() {
+var authenticationSuccess = function(param) {
   console.log('Successful authentication');
+	processToken();
 };
 
-var authenticationFailure = function() {
+var authenticationFailure = function(param) {
   console.log('Failed authentication');
+	processToken();
 };

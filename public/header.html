@@ -1,19 +1,15 @@
 <header class="header">
   <nav class="black lighten-1" role="navigation">
     <div class="nav-wrapper container">
-	
-	  <span class="brand-logo">
-		<a href="/"><img src="images/GLOBANT-LOGO-negativo-200.png" /></a>
-	  </span>
 
-	<ul class="right hide-on-med-and-down">
-        <li><a href="javascript:authorizeUser()">Login</a></li>
+      <span class="brand-logo">
+        <a href="/"><img src="images/GLOBANT-LOGO-negativo-200.png" /></a>
+      </span>
+      <ul class="right hide-on-med-and-down">
+        <li><a id="login_button" href="javascript:authorizeUser()" style="display: none">Login</a></li>
+        <li><a id="welcome_button" href="#" style="display: none">Welcome!</a></li>
       </ul>
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="javascript:authorizeUser()">Login</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
 </header>
