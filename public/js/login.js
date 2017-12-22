@@ -41,6 +41,8 @@ function processToken() {
     $('#login_button').css('display', 'none');
     $('#welcome_button').css('display', 'block');
     $('#buttons_row').css('display', 'block');
+
+    // show logged user info
     getLoggedInfo(
       function(result) {
         $('#welcome_button').text("Welcome " + result.fullName + "!");
@@ -49,6 +51,9 @@ function processToken() {
         console.log(result)
       });
       $("#welcome_button").dropdown();
+
+    // load boards
+    loadBoards();
   }
 }
 

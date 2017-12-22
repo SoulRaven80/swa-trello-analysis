@@ -17,6 +17,7 @@
   <script src="js/init.js"></script>
   <script src="js/bubble.js"></script>
   <script src="js/login.js"></script>
+  <script src="js/trello-utils.js"></script>
 
   <script src="https://trello.com/1/client.js?key=870c6e671ccf7a24104558904ab7795c"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -54,7 +55,12 @@
     .size([width, height])
     .padding(1.5);
 
-    var members_json_url = "https://api.trello.com/1/boards/59b1586d844575c1675e5413/cards/?"
+    var boardId = localStorage.getItem("boardId");
+    if (boardId == undefined || boardId == "undefined") {
+      // default to SWA Dallas ET
+      boardId = "59b1586d844575c1675e5413";
+    }
+    var members_json_url = "https://api.trello.com/1/boards/" + boardId + "/cards/?"
       + "key=870c6e671ccf7a24104558904ab7795c"
       + "&token=" + localStorage.getItem("trello_token")
       + "&fields=members"
