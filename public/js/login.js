@@ -1,25 +1,25 @@
 function authorizeUser() {
-	window.Trello.authorize({
-	  type: 'popup',
-	  name: 'Trello analysis dashboard',
-		persist: 'true',
-	  scope: {
-		read: 'true',
-		write: 'true' },
-	  expiration: 'never',
-	  success: authenticationSuccess,
-	  error: authenticationFailure
-	});
+  window.Trello.authorize({
+    type: 'popup',
+    name: 'Trello analysis dashboard',
+    persist: 'true',
+    scope: {
+      read: 'true',
+      write: 'true' },
+      expiration: 'never',
+      success: authenticationSuccess,
+      error: authenticationFailure
+    });
 }
 
 var authenticationSuccess = function(param) {
   console.log('Successful authentication');
-	processToken();
+  processToken();
 };
 
 var authenticationFailure = function(param) {
   console.log('Failed authentication');
-	processToken();
+  processToken();
 };
 
 function getLoggedInfo(onSuccess, onError) {
@@ -27,7 +27,7 @@ function getLoggedInfo(onSuccess, onError) {
     'members/me',
     { token : localStorage.getItem('trello_token') },
     onSuccess,
-		onError
+    onError
   );
 }
 
@@ -41,12 +41,18 @@ function processToken() {
     $('#login_button').css('display', 'none');
     $('#welcome_button').css('display', 'block');
     $('#buttons_row').css('display', 'block');
+    getLoggedInfo(
+      function(result) {
+        $('#welcome_button').text("Welcome " + result.fullName + "!");
+      },
+      function (result) {
+        console.log(result)
+      });
+      $("#welcome_button").dropdown();
   }
-  getLoggedInfo(
-    function(result) {
-      $('#welcome_button').text("Welcome " + result.fullName + "!");
-    },
-    function (result) {
-      console.log(result)
-    });
+}
+
+function logout() {
+  localStorage.removeItem('trello_token');
+  window.location = '/';
 }
