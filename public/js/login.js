@@ -1,5 +1,5 @@
 function authorizeUser() {
-  window.Trello.authorize({
+  Trello.authorize({
     type: 'popup',
     name: 'Trello analysis dashboard',
     persist: 'true',
@@ -23,8 +23,7 @@ var authenticationFailure = function(param) {
 };
 
 function getLoggedInfo(onSuccess, onError) {
-  window.Trello.rest('GET',
-    'members/me',
+  Trello.get('members/me',
     { token : localStorage.getItem('trello_token') },
     onSuccess,
     onError

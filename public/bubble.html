@@ -41,51 +41,67 @@
     </div>
   </div>
 
-  <script>
-
-  var svg = d3.select("svg"),
-      width = +svg.attr("width"),
-      height = +svg.attr("height");
-
+<script>
+  var svg = d3.select("svg");
+  var width = +svg.attr("width");
+  var height = +svg.attr("height");
   var format = d3.format(",d");
-
   var color = d3.scaleOrdinal(d3.schemeCategory20c);
-
   var pack = d3.pack()
-    .size([width, height])
-    .padding(1.5);
+    .size([width - 4, height - 4]);
+  var radius = d3.scaleSqrt()
+      .range([0, 15]);
 
-    var boardId = localStorage.getItem("boardId");
-    if (boardId == undefined || boardId == "undefined") {
-      // default to SWA Dallas ET
-      boardId = "59b1586d844575c1675e5413";
-    }
-    var members_json_url = "https://api.trello.com/1/boards/" + boardId + "/cards/?"
-      + "key=870c6e671ccf7a24104558904ab7795c"
-      + "&token=" + localStorage.getItem("trello_token")
-      + "&fields=members"
-      + "&members=true";
+  var boardId = localStorage.getItem("boardId");
+  if (boardId == undefined || boardId == "undefined") {
+    // default to SWA Dallas ET
+    boardId = "59b1586d844575c1675e5413";
+  }
+  var members_json_url = "https://api.trello.com/1/boards/" + boardId + "/cards/?"
+    + "key=870c6e671ccf7a24104558904ab7795c"
+    + "&token=" + localStorage.getItem("trello_token")
+    + "&fields=members"
+    + "&members=true";
 
-d3.json(members_json_url, function(error, cards) {
+  d3.json(members_json_url, function(error, cards) {
+    var members = getMembersFromCards(cards);
+    var root = d3.hierarchy({children: members})
+      .sum(function(d) { return d.value; });
 
-  var members = getMembersFromCards(cards);
-  var root = d3.hierarchy({children: members})
-    .sum(function(d) { return d.value; });
+    var node = svg.selectAll(".node")
+      .data(pack(root).leaves())
+      .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-  var node = svg.selectAll(".node")
-    .data(pack(root).leaves())
-    .enter().append("g")
-    .attr("class", "node")
-    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    node.append("circle")
+      .attr("id", function(d) { return d.data.name; })
+      .attr("r", function(d) { return radius(d.data.value == undefined ? 1 : d.data.value * 10); })
+      .style("fill", function(d) { return color(d.data.name); })
+      .on("mouseover", function(d) {
+              tooltip.text(format(d.value));
+              tooltip.style("visibility", "visible");
+      })
+      .on("mousemove", function() {
+          return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+      })
+      .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
-  node.append("circle")
-    .attr("id", function(d) { return d.data.name; })
-    .attr("r", function(d) { return d.data.value * 20; })
-    .style("fill", function(d) { return color(d.data.name); });
+    node.append("text")
+      .text(function(d) { return d.data.name; });
 
-  node.append("text")
-    .text(function(d) { return d.data.name; });
-});
+    var tooltip = d3.select("body")
+      .append("div")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .style("color", "white")
+      .style("padding", "8px")
+      .style("background-color", "rgba(0, 0, 0, 0.75)")
+      .style("border-radius", "6px")
+      .style("font", "12px sans-serif")
+      .text("tooltip");
+  });
 </script>
 </main>
 <!-- MAIN -->

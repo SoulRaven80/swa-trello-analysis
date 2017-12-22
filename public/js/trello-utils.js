@@ -13,7 +13,7 @@ var loadBoards = function() {
   //Get the users boards
   Trello.get(
     '/members/me/boards/',
-    { token : localStorage.getItem('trello_token') },
+    { token : localStorage.getItem('trello_token'), filter: "open" },
     loadedBoards,
     function() { console.log("Failed to load boards"); }
   );
