@@ -64,6 +64,8 @@
     + "&members=true";
 
   d3.json(members_json_url, function(error, cards) {
+    if (error) throw error;
+
     var members = getMembersFromCards(cards);
     var root = d3.hierarchy({children: members})
       .sum(function(d) { return d.value; });
