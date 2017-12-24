@@ -20,9 +20,9 @@
   <script src="js/trello-utils.js"></script>
 
 <script>
-  function goToBubblePage() {
+  function goToPage(page) {
     localStorage.setItem("boardId", $("#boards").val());
-    document.location = "bubble.html";
+    document.location = page + ".html";
   }
 </script>
 </head>
@@ -52,7 +52,8 @@
       </div>
 
       <div class="row center" id="buttons_row" style="display: none">
-        <a href="javascript:goToBubblePage()" id="download-button" class="btn-large waves-effect waves-light globant-orange">Bubble chart</a>
+        <a href="javascript:goToPage('bubble')" class="btn-large waves-effect waves-light globant-orange">Bubble chart</a>
+        <a href="javascript:goToPage('treemap')" class="btn-large waves-effect waves-light globant-orange">Treemap chart</a>
       </div>
 
       <br />

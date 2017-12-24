@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Label distributions</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://www.w3schools.com/lib/w3.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/treemap.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/trello-utils.js"></script>
+
+  <script src="https://trello.com/1/client.js?key=870c6e671ccf7a24104558904ab7795c"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+
+  <style>
+  form {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  svg {
+    font: 10px sans-serif;
+  }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div w3-include-html="header.html"></div>
+<!-- HEADER -->
+
+<!-- MAIN -->
+<main>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <h1 class="header center globant-orange-text">Label distributions</h1>
+      <div class="row center">
+        <br />
+        <form action="#">
+          <input class="with-gap" type="radio" name="colorMode" id="softColors" value="softColors" checked />
+          <label for="softColors">Soft colors</label>
+          <input class="with-gap" type="radio" name="colorMode" id="originalColors" value="originalColors" />
+          <label for="originalColors" >Original colors</label>
+        </form>
+        <br />
+        <svg width="800" height="800" font-family="sans-serif" font-size="10" text-anchor="middle"></svg>
+        <br /><br />
+      </div>
+    </div>
+
+  </div>
+  <script>
+
+  var svg = d3.select("svg"),
+      width = +svg.attr("width"),
+      height = +svg.attr("height");
+
+  var fader = function(color) { return d3.interpolateRgb(color, "#fff")(0.2); };
+  var color = d3.scaleOrdinal(d3.schemeCategory20.map(fader));
+  var format = d3.format(",d");
+
+  var treemap = d3.treemap()
+      .tile(d3.treemapResquarify)
+      .size([width, height])
+      .round(true)
+      .padding(1);
+
+  var boardId = localStorage.getItem("boardId");
+  if (boardId == undefined || boardId == "undefined") {
+    // default to SWA Dallas ET
+    boardId = "59b1586d844575c1675e5413";
+  }
+  var labels_json_url = "https://api.trello.com/1/boards/" + boardId + "/cards/?"
+    + "key=870c6e671ccf7a24104558904ab7795c"
+    + "&token=" + localStorage.getItem("trello_token")
+    + "&fields=name,labels";
+
+  d3.json(labels_json_url, function(error, cards) {
+    if (error) throw error;
+
+    var json = groupLabelsFromCards(cards);
+
+    var root = d3.hierarchy(json)
+      .sum(function(d) { return d.children ? 0 : 1; });
+
+    treemap(root);
+
+    var cell = svg.selectAll("g")
+      .data(root.leaves())
+      .enter().append("g")
+      .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; });
+
+    cell.append("rect")
+        .attr("width", function(d) { return d.x1 - d.x0; })
+        .attr("height", function(d) { return d.y1 - d.y0; })
+        .style("stroke", "rgb(120,120,120)")
+        .style("stroke-width", "0.5")
+        .style("fill", function(d) { return resolveColors(d.parent.data.color); })
+        .on("mouseover", function(d) {
+                tooltip.text(d.data.name);
+                tooltip.style("visibility", "visible");
+        })
+        .on("mousemove", function() {
+            return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+        })
+        .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+
+    var tooltip = d3.select("body")
+      .append("div")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .style("color", "white")
+      .style("padding", "8px")
+      .style("background-color", "rgba(0, 0, 0, 0.75)")
+      .style("border-radius", "6px")
+      .style("font", "12px sans-serif")
+      .text("tooltip");
+
+    var cellWidth;
+    cell.append("text")
+        .attr("x", function(d) {
+          cellWidth = (d.x1 - d.x0) / 2;
+          return cellWidth; })
+        .attr("y", function(d) { return (d.y1 - d.y0) / 2; })
+        .attr("dy", ".35em")
+        .attr("text-anchor", "middle")
+        .text(function(d) { return d.parent.data.name; })
+        .call(wrap, cellWidth);
+
+    d3.selectAll("input").on("change", changed);
+
+    function changed(sum) {
+      treemap(root);
+      cell.transition()
+        .duration(750)
+        .select("rect")
+        .style("fill", function(d) { return resolveColors(d.parent.data.color); });
+    }
+  });
+  </script>
+</main>
+<!-- MAIN -->
+
+<!-- FOOTER -->
+<div w3-include-html="footer.html"></div>
+<!-- FOOTER -->
+
+<script>
+w3.includeHTML(processToken);
+</script>
+</body>
+</html>
