@@ -1,19 +1,21 @@
 <header class="header">
-  <nav class="black lighten-1" role="navigation">
-    <div class="nav-wrapper container">
+  <div class="navbar-fixed">
+    <nav class="black lighten-1" role="navigation">
+      <div class="nav-wrapper container">
 
-      <!-- logout-dropdown structure -->
-      <ul id="logout-dropdown" class="dropdown-content">
-        <li><a href="javascript:logout()">Logout</a></li>
-      </ul>
+        <!-- logout-dropdown structure -->
+        <ul id="logout-dropdown" class="dropdown-content">
+          <li><a href="javascript:logout()">Logout</a></li>
+        </ul>
 
-      <span class="brand-logo">
-        <a href="/"><img src="images/GLOBANT-LOGO-negativo-200.png" /></a>
-      </span>
-      <ul class="right hide-on-med-and-down">
-        <li><a id="login_button" href="javascript:authorizeUser()" style="display: none">Login</a></li>
-        <li><a id="welcome_button" href="#!" data-activates="logout-dropdown" style="display: none"></a></li>
-      </ul>
-    </div>
-  </nav>
+        <span class="brand-logo">
+          <a href="/"><img src="images/GLOBANT-LOGO-negativo-200.png" /></a>
+        </span>
+        <ul class="right hide-on-med-and-down">
+          <li><a id="login_button" href="javascript:authorizeUser()" style="display: none">Login</a></li>
+          <li><a id="welcome_button" href="#!" data-activates="logout-dropdown" style="display: none"></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 </header>
