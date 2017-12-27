@@ -7,7 +7,7 @@ function groupLabelsFromCards(cards) {
     var label;
     var color;
     if (cards[i].labels.length == 0) {
-      label = "blank";
+      label = "N/A";
       color = "white";
       process(jsonObj, label, color, cards[i]);
     }
