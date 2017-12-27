@@ -35,11 +35,13 @@ function processToken() {
     $('#login_button').css('display', 'block');
     $('#welcome_button').css('display', 'none');
     $('#buttons_row').css('display', 'none');
+    $('#board_selection').css('display', 'none');
   }
   else {
     $('#login_button').css('display', 'none');
     $('#welcome_button').css('display', 'block');
     $('#buttons_row').css('display', 'block');
+    $('#board_selection').css('display', 'block');
 
     // show logged user info
     getLoggedInfo(
