@@ -60,5 +60,6 @@ function processToken() {
 
 function logout() {
   localStorage.removeItem('trello_token');
+  localStorage.removeItem('boardId');
   window.location = '/';
 }
