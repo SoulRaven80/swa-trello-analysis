@@ -26,81 +26,92 @@ main {
 /* end of sticky footer */
 
 .globant-green {
-  background-color: #CCD324 !important;	
+  background-color: #CCD324 !important;
 }
 
 .globant-gray {
-  background-color: #888A8C !important;	
+  background-color: #888A8C !important;
 }
 
 .globant-red {
-  background-color: #ED1C24 !important;	
+  background-color: #ED1C24 !important;
 }
 
 .globant-orange {
-  background-color: #F68B1F !important;	
+  background-color: #F68B1F !important;
 }
 
 .globant-yellow {
-  background-color: #FEBE10 !important;	
+  background-color: #FEBE10 !important;
 }
 
 .globant-cyan {
-  background-color: #00AEEF !important;	
+  background-color: #00AEEF !important;
 }
 
 .globant-blue {
-  background-color: #0069B5 !important;	
+  background-color: #0069B5 !important;
 }
 
 .globant-purple {
-  background-color: #A154A1 !important;	
+  background-color: #A154A1 !important;
 }
 
 .globant-light-violet {
-  background-color: #9A9CCD !important;	
+  background-color: #9A9CCD !important;
 }
 
 .globant-magenta {
-  background-color: #EC008C !important;	
+  background-color: #EC008C !important;
 }
 
 .globant-green-text {
-  color: #CCD324 !important;	
+  color: #CCD324 !important;
 }
 
 .globant-gray-text {
-  color: #888A8C !important;	
+  color: #888A8C !important;
 }
 
 .globant-red-text {
-  color: #ED1C24 !important;	
+  color: #ED1C24 !important;
 }
 
 .globant-orange-text {
-  color: #F68B1F !important;	
+  color: #F68B1F !important;
 }
 
 .globant-yellow-text {
-  color: #FEBE10 !important;	
+  color: #FEBE10 !important;
 }
 
 .globant-cyan-text {
-  color: #00AEEF !important;	
+  color: #00AEEF !important;
 }
 
 .globant-blue-text {
-  color: #0069B5 !important;	
+  color: #0069B5 !important;
 }
 
 .globant-purple-text {
-  color: #A154A1 !important;	
+  color: #A154A1 !important;
 }
 
 .globant-light-violet-text {
-  color: #9A9CCD !important;	
+  color: #9A9CCD !important;
 }
 
 .globant-magenta-text {
-  color: #EC008C !important;	
+  color: #EC008C !important;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 10;
+  visibility: hidden;
+  color: white;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 6px;
+  font: 12px sans-serif;
 }

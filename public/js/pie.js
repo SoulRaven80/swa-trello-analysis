@@ -49,20 +49,13 @@ d3.json(getJsonURLforAllCards("name,labels", false), function(error, cards) {
   arc.append("text")
       .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"
       // uncomment for 90 degrees angle text
-      // + "rotate(" + getAngle(d) + ")";
+      // + "rotate(" + getAngle(d) + ")"
       ; })
       .attr("dy", "0.35em")
       .text(function(d) { return d.data.name; });
 
-      var tooltip = d3.select("body")
-        .append("div")
-        .style("position", "absolute")
-        .style("z-index", "10")
-        .style("visibility", "hidden")
-        .style("color", "white")
-        .style("padding", "8px")
-        .style("background-color", "rgba(0, 0, 0, 0.75)")
-        .style("border-radius", "6px")
-        .style("font", "12px sans-serif")
-        .text("tooltip");
+  var tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .text("tooltip");
 });

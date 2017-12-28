@@ -39,14 +39,7 @@ d3.json(getJsonURLforAllCards("members", true), function(error, cards) {
 
   var tooltip = d3.select("body")
     .append("div")
-    .style("position", "absolute")
-    .style("z-index", "10")
-    .style("visibility", "hidden")
-    .style("color", "white")
-    .style("padding", "8px")
-    .style("background-color", "rgba(0, 0, 0, 0.75)")
-    .style("border-radius", "6px")
-    .style("font", "12px sans-serif")
+    .attr("class", "tooltip")
     .text("tooltip");
 });
 
