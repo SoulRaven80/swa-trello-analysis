@@ -18,6 +18,7 @@
   <script src="js/treemap.js"></script>
   <script src="js/login.js"></script>
   <script src="js/trello-utils.js"></script>
+  <script src="js/utils.js"></script>
 
   <script src="https://trello.com/1/client.js?key=870c6e671ccf7a24104558904ab7795c"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -64,17 +65,7 @@
       .round(true)
       .padding(1);
 
-  var boardId = localStorage.getItem("boardId");
-  if (boardId == undefined || boardId == "undefined") {
-    // default to SWA Dallas ET
-    boardId = "59b1586d844575c1675e5413";
-  }
-  var labels_json_url = "https://api.trello.com/1/boards/" + boardId + "/cards/all/?"
-    + "key=870c6e671ccf7a24104558904ab7795c"
-    + "&token=" + localStorage.getItem("trello_token")
-    + "&fields=name,labels";
-
-  d3.json(labels_json_url, function(error, cards) {
+  d3.json(getJsonURLforAllCards("name,labels", false), function(error, cards) {
     if (error) throw error;
 
     var json = groupLabelsFromCards(cards);

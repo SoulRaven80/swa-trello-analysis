@@ -4,7 +4,6 @@ function mapToJson(map) {
   for (let [k,v] of map) {
     result[cont++] = {"name":k, "value":v};
   }
-  // return JSON.parse(JSON.stringify(result));
   var jsonObj = JSON.parse(JSON.stringify(result));
   jsonObj.sort(function (a, b) {
     if (a.name == "N/A") {
