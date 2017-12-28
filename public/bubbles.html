@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Label distributions</title>
+  <title>Cards assigned by member</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -21,6 +21,7 @@
 
   <script src="https://trello.com/1/client.js?key=870c6e671ccf7a24104558904ab7795c"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
+
 </head>
 <body>
 
@@ -32,25 +33,15 @@
 <main>
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
-      <h1 class="header center globant-orange-text">Label distributions</h1>
+      <br><br>
+      <h1 class="header center globant-orange-text">Cards assigned by member</h1>
       <div class="row center">
-        <br />
-        <form action="#">
-          <input class="with-gap" type="radio" name="colorMode" id="softColors" value="softColors" checked />
-          <label for="softColors">Soft colors</label>
-          <input class="with-gap" type="radio" name="colorMode" id="originalColors" value="originalColors" />
-          <label for="originalColors">Original colors</label>
-        </form>
-        <br />
         <svg width="800" height="800" font-family="sans-serif" font-size="10" text-anchor="middle"></svg>
-        <br /><br />
       </div>
     </div>
-
   </div>
 
-  <script src="js/treemap.js"></script>
-
+  <script src="js/bubbles.js"></script>
 </main>
 <!-- MAIN -->
 

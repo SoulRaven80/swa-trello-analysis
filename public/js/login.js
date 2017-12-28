@@ -49,7 +49,7 @@ function processToken() {
         $('#welcome_button').text("Welcome " + result.fullName + "!");
       },
       function (result) {
-        console.log(result)
+        console.log("Error getting to Trello data: " + result)
       });
       $("#welcome_button").dropdown();
 

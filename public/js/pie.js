@@ -1,42 +1,47 @@
-function mapToJson(map) {
-  var result = new Array();
-  var cont = 0;
-  for (let [k,v] of map) {
-    result[cont++] = {"name":k, "value":v};
-  }
-  var jsonObj = JSON.parse(JSON.stringify(result));
-  jsonObj.sort(function (a, b) {
-    if (a.name == "N/A") {
-      return -1;
-    }
-    return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
-  });
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height"),
+    radius = Math.min(width, height) / 2,
+    g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-  return jsonObj;
-}
+var color = d3.scaleOrdinal(d3.schemeCategory20c);
 
-function countAllCardsPerLabel(cards) {
-  var labelsMap = new Map();
-  for (i = 0; i < cards.length; i++) {
-    if (cards[i].labels.length == 0) {
-      if (labelsMap.has("N/A")) {
-        labelsMap.set("N/A", labelsMap.get("N/A") + 1);
-      }
-      else {
-        labelsMap.set("N/A", 1);
-      }
-    }
-    else {
-      for (j = 0; j < cards[i].labels.length; j ++) {
-        var cardLabel = cards[i].labels[j].name;
-        if (labelsMap.has(cardLabel)) {
-          labelsMap.set(cardLabel, labelsMap.get(cardLabel) + 1);
-        }
-        else {
-          labelsMap.set(cardLabel, 1);
-        }
-      }
-    }
-  }
-  return mapToJson(labelsMap);
-}
+var pie = d3.pie()
+    .sort(null)
+    .value(function(d) { return d.value; });
+
+var path = d3.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(0);
+
+var label = d3.arc()
+    .outerRadius(radius - 40)
+    .innerRadius(radius - 40);
+
+d3.json(getJsonURLforAllCards("name,labels", false), function(error, cards) {
+  if (error) throw error;
+
+  var json = countAllCardsPerLabel(cards);
+
+  var arc = g.selectAll(".arc")
+      .data(pie(json))
+      .enter().append("g")
+        .attr("class", "arc");
+
+  arc.append("path")
+      .attr("d", path)
+      .attr("fill", function(d) { return color(d.data.name); });
+
+  // Get the angle on the arc and then rotate by -90 degrees
+  var getAngle = function (d) {
+      return (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
+  };
+
+  arc.append("text")
+      .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"
+      // uncomment for 90 degrees angle text
+      // + "rotate(" + getAngle(d) + ")";
+      ; })
+      .attr("dy", "0.35em")
+      .text(function(d) { return d.data.name; });
+});
