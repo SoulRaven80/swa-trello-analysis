@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Label distributions</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/pie.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://www.w3schools.com/lib/w3.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/pie.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/trello-utils.js"></script>
+  <script src="js/utils.js"></script>
+
+  <script src="https://trello.com/1/client.js?key=870c6e671ccf7a24104558904ab7795c"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<div w3-include-html="header.html"></div>
+<!-- HEADER -->
+
+<!-- MAIN -->
+<main>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <h1 class="header center globant-orange-text">Label distributions</h1>
+      <div class="row center">
+        <br />
+        <br />
+        <svg width="800" height="600" font-family="sans-serif" font-size="10" text-anchor="middle"></svg>
+        <br /><br />
+      </div>
+    </div>
+
+  </div>
+  <script>
+
+  var svg = d3.select("svg"),
+      width = +svg.attr("width"),
+      height = +svg.attr("height"),
+      radius = Math.min(width, height) / 2,
+      g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+  var color = d3.scaleOrdinal(d3.schemeCategory20c);
+
+  var pie = d3.pie()
+      .sort(null)
+      .value(function(d) { return d.value; });
+
+  var path = d3.arc()
+      .outerRadius(radius - 10)
+      .innerRadius(0);
+
+  var label = d3.arc()
+      .outerRadius(radius - 40)
+      .innerRadius(radius - 40);
+
+  d3.json(getJsonURLforAllCards("name,labels", false), function(error, cards) {
+    if (error) throw error;
+
+    var json = countAllCardsPerLabel(cards);
+
+    var arc = g.selectAll(".arc")
+        .data(pie(json))
+        .enter().append("g")
+          .attr("class", "arc");
+
+    arc.append("path")
+        .attr("d", path)
+        .attr("fill", function(d) { return color(d.data.name); });
+
+    // Get the angle on the arc and then rotate by -90 degrees
+    var getAngle = function (d) {
+        return (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
+    };
+
+    arc.append("text")
+        .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"
+        // uncomment for 90 degrees angle text
+        // + "rotate(" + getAngle(d) + ")";
+        ; })
+        .attr("dy", "0.35em")
+        .text(function(d) { return d.data.name; });
+  });
+  </script>
+</main>
+<!-- MAIN -->
+
+<!-- FOOTER -->
+<div w3-include-html="footer.html"></div>
+<!-- FOOTER -->
+
+<script>
+w3.includeHTML(processToken);
+</script>
+</body>
+</html>
