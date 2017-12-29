@@ -6,7 +6,7 @@ var color = d3.scaleOrdinal(d3.schemeCategory20c);
 var pack = d3.pack()
   .size([width - 4, height - 4]);
 var radius = d3.scaleSqrt()
-    .range([0, 15]);
+    .range([0, 12]);
 
 d3.json(getJsonURLforAllCards("members", true), function(error, cards) {
   if (error) throw error;
@@ -45,17 +45,25 @@ d3.json(getJsonURLforAllCards("members", true), function(error, cards) {
 
 function getMembersFromCards(cards) {
   var membersMap = new Map();
-
+  var noAssignees = "No Assignees";
   for (i = 0; i < cards.length; i++) {
-    for (j = 0; j < cards[i].members.length; j ++) {
-      var cardMember = cards[i].members[j].fullName;
-      if (membersMap.has(cardMember)) {
-        membersMap.set(cardMember, membersMap.get(cardMember) + 1);
-      }
-      else {
-        membersMap.set(cardMember, 1);
+    if (cards[i].members.length == 0) {
+      addMemberToMap(membersMap, noAssignees);
+    }
+    else {
+      for (j = 0; j < cards[i].members.length; j ++) {
+        addMemberToMap(membersMap, cards[i].members[j].fullName);
       }
     }
   }
   return mapToJson(membersMap);
+}
+
+function addMemberToMap(map, member) {
+  if (map.has(member)) {
+    map.set(member, map.get(member) + 1);
+  }
+  else {
+    map.set(member, 1);
+  }
 }
