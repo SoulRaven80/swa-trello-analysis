@@ -1,10 +1,19 @@
 function getBoardId() {
   var boardId = localStorage.getItem("boardId");
-  if (boardId == undefined || boardId == "undefined") {
+  if (boardId == undefined || boardId == "undefined" || boardId == '') {
     // default to SWA Dallas ET
     boardId = "59b1586d844575c1675e5413";
   }
   return boardId;
+}
+
+function getBoardName() {
+  var boardName = localStorage.getItem("boardName");
+  if (boardName == undefined || boardName == "undefined" || boardName == '') {
+    // default to SWA Dallas ET
+    boardName = "SWA Dallas ET";
+  }
+  return boardName;
 }
 
 function getJsonURLforAllCardsNoMembers(fields) {

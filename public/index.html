@@ -22,6 +22,8 @@
 <script>
   function goToPage(page) {
     localStorage.setItem("boardId", $("#boards").val());
+    localStorage.setItem("boardName", $("#boards option:selected").text());
+
     document.location = page + ".html";
   }
 </script>
@@ -53,7 +55,8 @@
 
       <div class="row center" id="buttons_row" style="display: none">
         <a href="javascript:goToPage('bubbles')" class="btn-large waves-effect waves-light globant-orange">Bubble chart</a>
-        <a href="javascript:goToPage('treemap')" class="btn-large waves-effect waves-light globant-orange">Treemap chart</a>
+        <!-- <a href="javascript:goToPage('treemap')" class="btn-large waves-effect waves-light globant-orange">Treemap chart</a> -->
+        <a href="javascript:goToPage('force')" class="btn-large waves-effect waves-light globant-orange">Force chart</a>
         <a href="javascript:goToPage('bars')" class="btn-large waves-effect waves-light globant-orange">Vertical bars chart</a>
         <a href="javascript:goToPage('pie')" class="btn-large waves-effect waves-light globant-orange">Pie chart</a>
       </div>

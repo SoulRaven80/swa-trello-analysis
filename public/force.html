@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Labels force graph</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/force.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://www.w3schools.com/lib/w3.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/trello-utils.js"></script>
+  <script src="js/utils.js"></script>
+
+  <script src="https://trello.com/1/client.js?key=870c6e671ccf7a24104558904ab7795c"></script>
+  <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<div w3-include-html="header.html"></div>
+<!-- HEADER -->
+
+<!-- MAIN -->
+<main>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <h1 class="header center globant-orange-text">Labels force graph</h1>
+      <div class="row center">
+        <br />
+        <br />
+        <svg width="800" height="600" font-family="sans-serif" font-size="10" text-anchor="middle"></svg>
+        <br /><br />
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/force.js"></script>
+
+</main>
+<!-- MAIN -->
+
+<!-- FOOTER -->
+<div w3-include-html="footer.html"></div>
+<!-- FOOTER -->
+
+<script>
+w3.includeHTML(processToken);
+</script>
+</body>
+</html>
