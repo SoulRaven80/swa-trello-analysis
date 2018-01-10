@@ -7,12 +7,15 @@ var svg = d3.select("svg");
 var width = +svg.attr("width");
 var height = +svg.attr("height");
 var radius = 10;
+var paddingLeftRight = 18; // adjust the padding values depending on font and font size
+var paddingTopBottom = 12;
+var chartMode = 'circle';
 
 //  d3 color scales
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-var link = svg.append("g").selectAll(".link");
-var node = svg.append("g").selectAll(".node");
+var link;
+var node;
 var text;
 
 //  force simulation initialization
@@ -60,10 +63,85 @@ d3.json(getJsonURLforAllCards("name,labels", false), function(error, data) {
   store = $.extend(true, {}, g);
 
   update();
+
+  d3.selectAll("input").on("change", changed);
+
+  function changed() {
+    chartMode = evalChartMode();
+    $("svg").empty();
+    update();
+  }
 });
+
+function evalChartMode() {
+  if ($("input[name=chartMode]:checked").val() == "roundNodes") {
+    return "circle";
+  }
+  else {
+    return "rect";
+  }
+}
+
+function getNode(node) {
+  if (chartMode == 'circle') {
+    return node.enter().append("circle")
+      .attr("class", "node")
+      .attr("r", radius)
+      .attr("fill", function(d) { return color(d.color); })
+      .call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended)
+      );
+  }
+  else {
+    return node.enter().append("rect")
+      .attr("class", "node")
+      .attr("rx", 6)
+      .attr("ry", 6)
+      .attr("fill", function(d) { return color(d.color); })
+      .call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended)
+      );
+  }
+}
+
+function setNodeLocation(node) {
+  if (chartMode == 'circle') {
+    node
+      .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
+      .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
+  }
+  else {
+    node
+      .attr("x", function(d) { return d.x - d.bb.width/2 - paddingLeftRight/2; })
+      .attr("y", function(d) { return d.y - d.bb.height;  })
+      .attr("width", function(d) { return d.bb.width + paddingLeftRight; })
+      .attr("height", function(d) { return d.bb.height + paddingTopBottom; });
+  }
+}
+
+function setTextLocation(text) {
+  if (chartMode == 'circle') {
+    text
+      .attr("dx", function(d) { return d.x; })
+      .attr("dy", function(d) { return d.y - radius - 5; });
+  }
+  else {
+    text
+      .attr("dx", function(d) { return d.x; })
+      .attr("dy", function(d) { return d.y + (paddingTopBottom / 4); });
+  }
+}
 
 //  general update pattern for updating the graph
 function update() {
+
+  link = svg.append("g").selectAll(".link");
+  node = svg.append("g").selectAll(".node");
+
   //  UPDATE
   node = node.data(graph.nodes, function(d) { return d.id; });
 
@@ -71,15 +149,7 @@ function update() {
   node.exit().remove();
 
   //  ENTER
-  var newNode = node.enter().append("circle")
-    .attr("class", "node")
-    .attr("r", radius)
-    .attr("fill", function(d) { return color(d.color); })
-    .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended)
-    );
+  var newNode = getNode(node)
 
     text = svg.append("g")
       .attr("class", "labels")
@@ -119,6 +189,10 @@ function update() {
       .links(graph.links);
 
     simulation.alpha(1).alphaTarget(0).restart();
+
+    svg.selectAll("text").each(function(d, i) {
+        d.bb = this.getBBox(); // get bounding box of text field and store it in texts array
+    });
 }
 
 //  drag event handlers
@@ -141,9 +215,7 @@ function dragended(d) {
 
 //  tick event handler with bounded box
 function ticked() {
-  node
-    .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
-    .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
+  setNodeLocation(node);
 
   link
     .attr("x1", function(d) { return d.source.x; })
@@ -151,9 +223,7 @@ function ticked() {
     .attr("x2", function(d) { return d.target.x; })
     .attr("y2", function(d) { return d.target.y; });
 
-  text
-    .attr("dx", function(d) { return d.x; })
-    .attr("dy", function(d) { return d.y - radius - 5; });
+  setTextLocation(text);
 }
 
 //  filter function

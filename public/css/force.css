@@ -26,3 +26,9 @@ button {
 	stroke: gray;
 	stroke-width: 4px;
 }
+
+text {
+  font: 12px sans-serif;
+  font-weight: bold;
+  text-anchor: middle;
+}
