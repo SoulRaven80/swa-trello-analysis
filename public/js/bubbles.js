@@ -6,7 +6,7 @@ var color = d3.scaleOrdinal(d3.schemeCategory20c);
 var pack = d3.pack()
   .size([width - 4, height - 4]);
 var radius = d3.scaleSqrt()
-    .range([0, 12]);
+    .range([0, 10]);
 
 d3.json(getJsonURLforAllCards("members", true), function(error, cards) {
   if (error) throw error;

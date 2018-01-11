@@ -34,9 +34,13 @@
 <main>
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
-      <h1 class="header center globant-orange-text">Labels force graph</h1>
+
+      <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
       <div class="row center">
-        <br />
+        <ul id="slide-out" class="side-nav" w3-include-html="slidenav.html"></ul>
+
+      <h1 class="header center globant-orange-text">Labels force graph</h1>
+      <!-- <div class="row center"> -->
         <form action="#">
           <input class="with-gap" type="radio" name="chartMode" id="roundNodes" value="roundNodes" checked />
           <label for="roundNodes">Circles</label>

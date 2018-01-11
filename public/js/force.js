@@ -136,6 +136,12 @@ function setTextLocation(text) {
   }
 }
 
+function setTextStyle(text) {
+  if (chartMode == 'circle') {
+    text.attr("style", "color: black; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;");
+  }
+}
+
 //  general update pattern for updating the graph
 function update() {
 
@@ -155,8 +161,10 @@ function update() {
       .attr("class", "labels")
       .selectAll("text").data(graph.nodes)
       .enter().append("text")
-        .attr("text-anchor", "middle")
+      .attr("text-anchor", "middle")
         .text(function(d) { return d.name });
+
+    setTextStyle(text);
 
     newNode.append("title")
       .text(function(d) { return "name: " + d.name + "\n" + "id: " + d.id; });

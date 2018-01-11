@@ -115,3 +115,16 @@ main {
   border-radius: 6px;
   font: 12px sans-serif;
 }
+
+i.material-icons {
+  color: black;
+}
+
+.side-nav li > a {
+  text-align: left;
+}
+
+h1.header.center {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
