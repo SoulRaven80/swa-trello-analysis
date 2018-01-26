@@ -18,12 +18,14 @@ var link;
 var node;
 var text;
 
+var treatSiblingsAsParents = false;
+
 //  force simulation initialization
 var simulation = d3.forceSimulation()
   .force("link", d3.forceLink()
     .id(function(d) { return d.id; }))
   .force("charge", d3.forceManyBody()
-    .strength(function(d) { return -1500;}))
+    .strength(function(d) { return -2000;}))
   .force("center", d3.forceCenter(width / 2, height / 2));
 
 //  filtered types
@@ -48,6 +50,9 @@ d3.json(getJsonURLforAllCards("name,labels", false), function(error, data) {
   g.nodes = getNodesFromCards(data);
   g.links = getLinksFromCards(data);
 
+  if (treatSiblingsAsParents) {
+    updateSiblings(g.links);
+  }
   var nodeByID = {};
 
   g.nodes.forEach(function(n) {
@@ -72,6 +77,37 @@ d3.json(getJsonURLforAllCards("name,labels", false), function(error, data) {
     update();
   }
 });
+
+function updateSiblings(links) {
+  var arrayToRemove = [];
+  for (var i=0; i < links.length; i++) {
+    if (links[i].source != -1) {
+      var pivotSource = links[i].source;
+      var arrayTemp = [];
+      for (var j=i+1; j < links.length; j++) {
+        if (links[j].source == pivotSource) {
+          arrayTemp[(arrayTemp.length ? arrayTemp.length : 0)] = links[j].source;
+        }
+        else if (links[j].target == pivotSource) {
+          arrayTemp[(arrayTemp.length ? arrayTemp.length : 0)] = links[j].target;
+        }
+      }
+      if (arrayTemp.length > 1) {
+        for (var j = 0; j = arrayTemp.length; j++) {
+          arrayToRemove[(arrayToRemove.length ? arrayToRemove.length : 0)] = arrayTemp[j];
+        }
+      }
+    }
+  }
+  // delete
+  for (var i = 0; i < links.length; i++) {
+    for (var j = 0; j < arrayToRemove.length; j++) {
+      if (links[i].source == -1 && links[i].target == arrayToRemove[j]) {
+        links.splice(i, 1);
+      }
+    }
+  }
+}
 
 function evalChartMode() {
   if ($("input[name=chartMode]:checked").val() == "roundNodes") {
@@ -315,7 +351,8 @@ function getLinksFromCards(cards) {
 
 function existLinkInArray(array, source, target) {
   for (var k = 0; k < array.length; k++) {
-    if (array[k].source == source && array[k].target == target) {
+    if ((array[k].source == source && array[k].target == target)
+    || (array[k].source == target && array[k].target == source)) {
       return k;
     }
   }
