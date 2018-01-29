@@ -202,9 +202,6 @@ function update() {
 
     setTextStyle(text);
 
-    newNode.append("title")
-      .text(function(d) { return "name: " + d.name + "\n" + "id: " + d.id; });
-
   //  ENTER + UPDATE
   node = node.merge(newNode);
 
